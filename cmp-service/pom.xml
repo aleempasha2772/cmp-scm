@@ -35,12 +35,12 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-		<!--
+		
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
 		</dependency>
-		-->
+		
 		<!-- Exclude Logback from Spring Boot Starter -->
 	    <dependency>
 	        <groupId>org.springframework.boot</groupId>
