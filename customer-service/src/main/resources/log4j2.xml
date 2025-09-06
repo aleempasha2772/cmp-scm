@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Properties>
+        <Property name="LOG_PATTERN">
+            %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n
+        </Property>
+        <Property name="APP_LOG_ROOT">logs</Property>
+    </Properties>
+    
+    <Appenders>
+        <!-- Console Appender -->
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+        </Console>
+        
+        <!-- File Appender for all logs -->
+        <RollingFile name="AppLog" 
+                     fileName="${APP_LOG_ROOT}/customer-service.log"
+                     filePattern="${APP_LOG_ROOT}/customer-service-%d{yyyy-MM-dd}-%i.log.gz">
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="10MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="10"/>
+        </RollingFile>
+        
+        <!-- Error Log Appender -->
+        <RollingFile name="ErrorLog" 
+                     fileName="${APP_LOG_ROOT}/customer-service-error.log"
+                     filePattern="${APP_LOG_ROOT}/customer-service-error-%d{yyyy-MM-dd}-%i.log.gz">
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+            <ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="10MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="10"/>
+        </RollingFile>
+        
+        <!-- Service Layer Log Appender -->
+        <RollingFile name="ServiceLog" 
+                     fileName="${APP_LOG_ROOT}/customer-service-business.log"
+                     filePattern="${APP_LOG_ROOT}/customer-service-business-%d{yyyy-MM-dd}-%i.log.gz">
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="10MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="10"/>
+        </RollingFile>
+    </Appenders>
+    
+    <Loggers>
+        <!-- Application specific loggers -->
+        <Logger name="com.example.customerservice.service" level="INFO" additivity="false">
+            <AppenderRef ref="ServiceLog"/>
+            <AppenderRef ref="Console"/>
+        </Logger>
+        
+        <Logger name="com.example.customerservice.controller" level="INFO" additivity="false">
+            <AppenderRef ref="AppLog"/>
+            <AppenderRef ref="Console"/>
+        </Logger>
+        
+        <Logger name="com.example.customerservice.exception" level="ERROR" additivity="false">
+            <AppenderRef ref="ErrorLog"/>
+            <AppenderRef ref="Console"/>
+        </Logger>
+        
+        <!-- Spring Boot loggers -->
+        <Logger name="org.springframework" level="INFO" additivity="false">
+            <AppenderRef ref="AppLog"/>
+        </Logger>
+        
+        <Logger name="org.hibernate" level="WARN" additivity="false">
+            <AppenderRef ref="AppLog"/>
+        </Logger>
+        
+        <Logger name="org.hibernate.SQL" level="DEBUG" additivity="false">
+            <AppenderRef ref="AppLog"/>
+        </Logger>
+        
+        <!-- Root Logger -->
+        <Root level="INFO">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="AppLog"/>
+        </Root>
+    </Loggers>
+</Configuration>
