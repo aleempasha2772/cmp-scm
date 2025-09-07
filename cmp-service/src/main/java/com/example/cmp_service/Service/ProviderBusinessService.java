@@ -11,6 +11,8 @@ public interface ProviderBusinessService {
 	List<BusinessService> getAllService();
 	BusinessService updateService(Long id,String serviceName);
 	void deleteService(Integer serviceId);
-	Optional<BusinessService> getServiceById(Integer serviceId);
+	BusinessService getServiceById(Integer serviceId);
+	Integer updateSubscriptionCount(Integer serviceId);
+	
 	
 }

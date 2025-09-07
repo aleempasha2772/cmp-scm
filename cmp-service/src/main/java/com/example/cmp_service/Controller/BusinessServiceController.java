@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -43,8 +44,16 @@ public class BusinessServiceController {
 	}
 	
 	@GetMapping("/get-business-service-by-id/{serviceId}")
-	public ResponseEntity<Optional<BusinessService>> getBusinessServiceById(@PathVariable Integer serviceId){
-		return ResponseEntity.ok().body(providerBusinessService.getServiceById(serviceId));
+	public ResponseEntity<BusinessService> getBusinessServiceById(@PathVariable Integer serviceId){
+	    return ResponseEntity.ok().body(providerBusinessService.getServiceById(serviceId));
+	}
+	
+	@PutMapping("update-sub-count/{serviceId}")
+	public ResponseEntity<BusinessService> updateSubscriptionCount(@PathVariable Integer serviceId){
+		BusinessService bService = providerBusinessService.getServiceById(serviceId);
+		Integer updatedCount = providerBusinessService.updateSubscriptionCount(serviceId);
+		bService.setTotalServiceSubcriptionCount(updatedCount);
+		return ResponseEntity.ok().body(bService);
 	}
 	
 	

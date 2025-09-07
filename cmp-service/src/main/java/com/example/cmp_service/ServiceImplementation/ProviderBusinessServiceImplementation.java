@@ -10,6 +10,8 @@ import com.example.cmp_service.Model.BusinessService;
 import com.example.cmp_service.Repository.BusinessServiceRepository;
 import com.example.cmp_service.Service.ProviderBusinessService;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class ProviderBusinessServiceImplementation implements ProviderBusinessService{
 	
@@ -28,11 +30,9 @@ public class ProviderBusinessServiceImplementation implements ProviderBusinessSe
 	}
 
 	@Override
-	public Optional<BusinessService> getServiceById(Integer serviceId) {
-		if (serviceId == null) {
-            return Optional.empty();
-        }
-		return businessServiceRepository.findById(serviceId);
+	public BusinessService getServiceById(Integer serviceId) {
+	    return businessServiceRepository.findById(serviceId)
+	            .orElseThrow(() -> new RuntimeException("Service not found with id: " + serviceId));
 	}
 
 	@Override
@@ -46,6 +46,16 @@ public class ProviderBusinessServiceImplementation implements ProviderBusinessSe
 		
 		businessServiceRepository.deleteById(serviceId);
 		
+	}
+
+	@Override
+	@Transactional  // Add transactional annotation to ensure atomic operation
+	public Integer updateSubscriptionCount(Integer serviceId) {
+		BusinessService bs = getServiceById(serviceId);
+		Integer updatedSubscriptionCount = bs.getTotalServiceSubcriptionCount()+1;
+		bs.setTotalServiceSubcriptionCount(updatedSubscriptionCount);
+		businessServiceRepository.save(bs);
+		return bs.getTotalServiceSubcriptionCount();
 	}
 
 

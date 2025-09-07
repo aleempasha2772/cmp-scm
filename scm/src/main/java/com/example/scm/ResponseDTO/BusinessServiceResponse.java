@@ -1,13 +1,7 @@
-package com.example.cmp_service.Model;
+package com.example.scm.ResponseDTO;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 
-@Entity
-@Table(name= "businessservice")
-public class BusinessService {
-	@Id
+public class BusinessServiceResponse {
 	private Integer serviceId;
 	private String serviceName;
 	private Integer totalServiceSubcriptionCount;
@@ -36,21 +30,21 @@ public class BusinessService {
 	public void setTotalServiceSubcriptionCount(Integer totalServiceSubcriptionCount) {
 		this.totalServiceSubcriptionCount = totalServiceSubcriptionCount;
 	}
-	public BusinessService(Integer serviceId, String serviceName, Integer totalServiceSubcriptionCount , Integer servicePrice) {
+	public BusinessServiceResponse(Integer serviceId, String serviceName, Integer totalServiceSubcriptionCount,Integer servicePrice) {
 		super();
 		this.serviceId = serviceId;
 		this.serviceName = serviceName;
 		this.totalServiceSubcriptionCount = totalServiceSubcriptionCount;
 		this.servicePrice = servicePrice;
 	}
-	public BusinessService() {
+	public BusinessServiceResponse() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 	@Override
 	public String toString() {
 		return "Service [serviceId=" + serviceId + ", serviceName=" + serviceName + ", totalServiceSubcriptionCount="
-				+ totalServiceSubcriptionCount + servicePrice + "]";
+				+ totalServiceSubcriptionCount + "]";
 	}
 	
 	
